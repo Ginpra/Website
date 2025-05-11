@@ -93,20 +93,35 @@
 <section id="hot-news" class="py-5" style="background-color: #111; color: yellow;">
   <div class="container">
     <h2 class="mb-4">🔥 Hot News</h2>
-    <div class="row">
-      <div class="col-md-6">
-        <img src="hot1.jpg" alt="Hot News 1" class="img-fluid rounded">
-        <h4 class="mt-3">AI Mengubah Dunia: Fakta Terbaru 2025</h4>
-        <p>Perkembangan AI makin cepat. Inilah hal-hal penting yang wajib kamu tahu!</p>
-      </div>
-      <div class="col-md-6">
-        <img src="hot2.jpg" alt="Hot News 2" class="img-fluid rounded">
-        <h4 class="mt-3">Chipset Terbaru Qualcomm Resmi Dirilis</h4>
-        <p>Snapdragon generasi terbaru bawa performa luar biasa untuk HP flagship.</p>
-      </div>
-    </div>
+    <?php
+    // Ambil 4 berita dari kategori 'hot'
+    $query = "SELECT * FROM berita WHERE kategori = 'hot' ORDER BY tanggal DESC LIMIT 4";
+    $result = $conn->query($query);
+
+    if ($result && $result->num_rows > 0) {
+      while ($row = $result->fetch_assoc()) {
+        $judul      = htmlspecialchars($row['judul']);
+        $deskripsi  = htmlspecialchars($row['deskripsi']);
+        $gambar     = !empty($row['gambar']) ? 'gambar/' . $row['gambar'] : 'default.jpg';
+    ?>
+        <div class="row mb-4 align-items-center">
+          <div class="col-md-4">
+            <img src="<?= $gambar ?>" alt="<?= $judul ?>" class="img-fluid rounded">
+          </div>
+          <div class="col-md-8">
+            <h4><?= $judul ?></h4>
+            <p><?= $deskripsi ?></p>
+          </div>
+        </div>
+    <?php
+      }
+    } else {
+      echo "<p>Tidak ada berita hot untuk saat ini.</p>";
+    }
+    ?>
   </div>
 </section>
+
 
 <!-- Latest News -->
 <section id="latest-news" class="py-5 bg-light">
