@@ -13,39 +13,38 @@ if (!isset($_SESSION['login'])) {
     exit;
 }
 
+$username = $_SESSION['username'];
+
 // Hapus berita
 if (isset($_GET['hapus'])) {
-    $id = intval($_GET['hapus']);
-    $stmt = $conn->prepare("DELETE FROM berita WHERE id = ?");
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
+    $id = (int) $_GET['hapus'];
+    $conn->query("DELETE FROM berita WHERE id = $id");
     header("Location: dashboard.php");
     exit;
 }
 
-// Update Berita
-if (isset($_POST['update'])) {
-    $id        = (int)$_POST['id'];
+// edit Berita
+if (isset($_POST['edit'])) {
+    $id        = $_POST['id'];
     $judul     = $_POST['judul'];
     $sub       = $_POST['sub'];
     $deskripsi = $_POST['deskripsi'];
     $kategori  = $_POST['kategori'];
+    
+    $baru = "UPDATE berita SET 
+    judul     = '$judul',
+    sub       = '$sub',
+    deskripsi = '$deskripsi',
+    kategori  = '$kategori'";
 
-    // Bangun query dasar
-    $sql = "UPDATE berita SET
-                judul     = '$judul',
-                sub       = '$sub',
-                deskripsi = '$deskripsi',
-                kategori  = '$kategori'";
-
-    $sql .= " WHERE id = $id";
-    mysqli_query($conn, $sql) or die(mysqli_error($conn));
+    $baru .= " WHERE id = $id";
+    mysqli_query($conn, $baru) or die(mysqli_error($conn));
     header('Location: dashboard.php');
     exit;
 }
 
-// Ambil semua berita
 $berita = $conn->query("SELECT * FROM berita");
+
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -64,34 +63,34 @@ $berita = $conn->query("SELECT * FROM berita");
   </nav>
 
   <div class="container py-5">
-    <h2 class="mb-4">Selamat datang, admin</h2>
+    <h2 class="mb-4">Selamat datang, <?= $username ?></h2>
     <p>Di sini kamu bisa menambahkan, mengedit, atau menghapus data berita.</p>
     <a href="tambah.php" class="btn btn-warning mb-4">+ Tambah Berita</a>
 
     <h3 class="text-warning">Daftar Berita</h3>
     <?php while ($row = $berita->fetch_assoc()): ?>
-      <div class="bg-dark text-light p-3 rounded mb-3">
+      <div class="bg-dark text-light p-3 rounded mb-4">
         <?php if (isset($_GET['edit']) && $_GET['edit'] == $row['id']): ?>
           <form method="post">
             <input type="hidden" name="id" value="<?= $row['id'] ?>">
-            <div class="mb-2">
+            <div class="mb-4">
               <input type="text" name="judul" class="form-control" value="<?= htmlspecialchars($row['judul']) ?>" required>
             </div>
-            <div class="mb-2">
+            <div class="mb-4">
               <textarea name="deskripsi" class="form-control" required><?= htmlspecialchars($row['deskripsi']) ?></textarea>
             </div>
-            <div class="mb-2">
+            <div class="mb-4">
               <input type="text" name="sub" class="form-control" value="<?= htmlspecialchars($row['sub']) ?>" required>
             </div>
-            <div class="mb-2">
+            <div class="mb-4">
               <select name="kategori" class="form-select" required>
               <option value="hot">Hot News</option>
               <option value="latest">Latest News</option>
               <option value="tips">Tips</option>
             </select>
             </div>
-            <button type="submit" name="update" class="btn btn-success btn-sm">Simpan</button>
-            <a href="dashboard.php" class="btn btn-secondary btn-sm">Batal</a>
+            <button type="submit" name="edit" class="btn btn-success btn-sm">Simpan</button>
+            <a href="dashboard.php" class="btn btn-danger btn-sm">Batal</a>
           </form>
         <?php else: ?>
           <h5><?= htmlspecialchars($row['judul']) ?></h5>
