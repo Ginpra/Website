@@ -1,5 +1,5 @@
 <?php
-include 'koneksi.php'; //menghubungkan file ini dengan file koneksi.php
+include 'koneksi.php';
 session_start();
 
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
@@ -8,14 +8,56 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     exit();
 }
 
-if (!isset($_SESSION['login'])) { //jika session login tidak ada
-    header("Location: login.php"); //redirect ke halaman login
-    exit; //keluar dari file ini
+if (!isset($_SESSION['login'])) {
+    header("Location: login.php");
+    exit;
 }
 
-// Ambil username admin dari database
-$username = $_SESSION['username']; // Misal, session menyimpan username admin
+// Hapus berita
+if (isset($_GET['hapus'])) {
+    $id = intval($_GET['hapus']);
+    $stmt = $conn->prepare("DELETE FROM berita WHERE id = ?");
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    header("Location: dashboard.php");
+    exit;
+}
 
+// Update Berita
+if (isset($_POST['update'])) {
+    $id        = (int)$_POST['id'];
+    $judul     = mysqli_real_escape_string($conn, $_POST['judul']);
+    $sub       = mysqli_real_escape_string($conn, $_POST['sub']);
+    $deskripsi = mysqli_real_escape_string($conn, $_POST['deskripsi']);
+    $kategori  = mysqli_real_escape_string($conn, $_POST['kategori']);
+
+    // Bangun query dasar
+    $sql = "UPDATE berita SET
+                judul     = '$judul',
+                sub       = '$sub',
+                deskripsi = '$deskripsi',
+                kategori  = '$kategori'";
+
+    // Handle upload gambar jika ada
+    if (!empty($_FILES['gambar']['name'])) {
+        $fileName = time() . '_' . basename($_FILES['gambar']['name']);
+        $target   = 'uploads/' . $fileName;
+        if (move_uploaded_file($_FILES['gambar']['tmp_name'], $target)) {
+            $sql .= ", gambar = '$fileName'";
+        } else {
+            echo "<script>alert('Upload gambar gagal!');</script>";
+            exit;
+        }
+    }
+
+    $sql .= " WHERE id = $id";
+    mysqli_query($conn, $sql) or die(mysqli_error($conn));
+    header('Location: dashboard.php');
+    exit;
+}
+
+// Ambil semua berita
+$berita = $conn->query("SELECT * FROM berita");
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -34,36 +76,47 @@ $username = $_SESSION['username']; // Misal, session menyimpan username admin
   </nav>
 
   <div class="container py-5">
-    <h2 class="mb-4">Selamat datang, <?= $username ?></h2>
+    <h2 class="mb-4">Selamat datang, admin</h2>
     <p>Di sini kamu bisa menambahkan, mengedit, atau menghapus data berita.</p>
-    <a href="tambah.php" class="btn btn-warning">+ Tambah Berita</a>
+    <a href="tambah.php" class="btn btn-warning mb-4">+ Tambah Berita</a>
 
-    <h3 class="mt-4">Daftar Berita</h3>
-    <?php
-    // Ambil data berita dari database
-    $query = "SELECT * FROM berita ORDER BY tanggal DESC";
-    $result = $conn->query($query);
-
-    if ($result && $result->num_rows > 0) {
-      while ($row = $result->fetch_assoc()) {
-        $judul = htmlspecialchars($row['judul']);
-        $sub = htmlspecialchars($row['sub']);
-        $id = $row['id']; // Ambil id berita
-    ?>
-        <div class="card bg-dark text-light mt-4">
-          <div class="card-body">
-            <h5 class="card-title"><?= $judul ?></h5>
-            <p class="card-text"><?= $sub ?></p>
-            <a href="edit.php?id=<?= $id ?>" class="btn btn-outline-warning btn-sm">Edit</a>
-            <a href="hapus.php?id=<?= $id ?>" class="btn btn-outline-danger btn-sm" onclick="return confirm('Yakin ingin menghapus berita ini?')">Hapus</a>
-          </div>
-        </div>
-    <?php
-      }
-    } else {
-      echo "<p>Tidak ada berita untuk ditampilkan.</p>";
-    }
-    ?>
+    <h3 class="text-warning">Daftar Berita</h3>
+    <?php while ($row = $berita->fetch_assoc()): ?>
+      <div class="bg-dark text-light p-3 rounded mb-3">
+        <?php if (isset($_GET['edit']) && $_GET['edit'] == $row['id']): ?>
+          <form method="post">
+            <input type="hidden" name="id" value="<?= $row['id'] ?>">
+            <div class="mb-2">
+              <input type="text" name="judul" class="form-control" value="<?= htmlspecialchars($row['judul']) ?>" required>
+            </div>
+            <div class="mb-2">
+              <textarea name="deskripsi" class="form-control" required><?= htmlspecialchars($row['deskripsi']) ?></textarea>
+            </div>
+            <div class="mb-2">
+              <input type="text" name="sub" class="form-control" value="<?= htmlspecialchars($row['sub']) ?>" required>
+            </div>
+            <div class="mb-2">
+              <select name="kategori" class="form-select" required>
+              <option value="hot">Hot News</option>
+              <option value="latest">Latest News</option>
+              <option value="tips">Tips</option>
+            </select>
+            </div>
+            <div class="mb-2">
+              <input type="file" name="gambar" class="form-control">
+              <small class="text-muted">Kosongkan jika tidak ingin mengubah gambar</small>
+            </div>
+            <button type="submit" name="update" class="btn btn-success btn-sm">Simpan</button>
+            <a href="dashboard.php" class="btn btn-secondary btn-sm">Batal</a>
+          </form>
+        <?php else: ?>
+          <h5><?= htmlspecialchars($row['judul']) ?></h5>
+          <p><?= htmlspecialchars($row['sub']) ?></p>
+          <a href="?edit=<?= $row['id'] ?>" class="btn btn-outline-warning btn-sm">Edit</a>
+          <a href="?hapus=<?= $row['id'] ?>" class="btn btn-outline-danger btn-sm" onclick="return confirm('Yakin ingin menghapus berita ini?')">Hapus</a>
+        <?php endif; ?>
+      </div>
+    <?php endwhile; ?>
   </div>
 
 </body>
