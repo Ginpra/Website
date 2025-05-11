@@ -1,3 +1,7 @@
+<?php
+include 'koneksi.php'; // Menghubungkan ke database
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -121,7 +125,6 @@
     ?>
   </div>
 </section>
-
 
 <!-- Latest News -->
 <section id="latest-news" class="py-5 bg-light">
