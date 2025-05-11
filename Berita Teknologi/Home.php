@@ -101,8 +101,8 @@ include 'koneksi.php'; // Menghubungkan ke database
   <div class="container">
     <h2 class="mb-4">🔥 Hot News</h2>
     <?php
-    // Ambil 4 berita dari kategori 'hot'
-    $query = "SELECT * FROM berita WHERE kategori = 'hot' ORDER BY tanggal DESC LIMIT 4";
+   
+    $query = "SELECT * FROM berita WHERE kategori = 'hot' ORDER BY tanggal DESC LIMIT 6";
     $result = $conn->query($query);
 
     if ($result && $result->num_rows > 0) {
