@@ -4,6 +4,7 @@ include 'koneksi.php';
 if (isset($_POST['tambah'])) {
     $judul       = ($_POST['judul']);
     $deskripsi   = ($_POST['deskripsi']);
+    $sub       = ($_POST['sub']);
     $kategori    = in_array($_POST['kategori'], ['hot','latest','tips']) ? $_POST['kategori'] : 'latest';
     $tanggal = $_POST['tanggal'];
 
@@ -23,9 +24,9 @@ if (isset($_POST['tambah'])) {
 
     // Siapkan query INSERT
     $sql = "INSERT INTO berita 
-            (judul, deskripsi, image_url, kategori, tanggal)
+            (judul, sub, deskripsi, gambar, kategori, tanggal)
             VALUES
-            ('$judul', '$deskripsi', "
+            ('$judul', '$sub', '$deskripsi', "
             . ($gambar ? "'$gambar'" : "NULL") .
             ", '$kategori', '$tanggal')";
 
@@ -64,6 +65,12 @@ if (isset($_POST['tambah'])) {
           <div class="mb-3">
             <label class="form-label">Judul Berita</label>
             <input type="text" name="judul" class="form-control bg-secondary text-light" required>
+          </div>
+
+          <!-- Sub Judul -->
+          <div class="mb-3">
+            <label class="form-label">Sub Judul</label>
+            <input type="text" name="sub" class="form-control bg-secondary text-light" required>
           </div>
 
           <!-- Deskripsi -->
