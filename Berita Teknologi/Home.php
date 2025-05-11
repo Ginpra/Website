@@ -38,8 +38,11 @@ include 'koneksi.php'; // Menghubungkan ke database
           <li class="nav-item">
             <a class="nav-link" href="#about">About</a>
           </li>
-          <li class="nav-item">
-            <a class="btn btn-outline-warning" href="login.php">Admin</a>
+          <li class="nav-item ms-3">
+            <a class="btn btn-outline-warning" href="login.php">Sign In</a>
+          </li>
+          <li class="nav-item ms-3">
+            <a class="btn btn-warning" href="register.php">Sign Up</a>
           </li>
         </ul>
       </div>
