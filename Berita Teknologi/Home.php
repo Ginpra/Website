@@ -101,7 +101,7 @@
     if ($result && $result->num_rows > 0) {
       while ($row = $result->fetch_assoc()) {
         $judul      = htmlspecialchars($row['judul']);
-        $deskripsi  = htmlspecialchars($row['deskripsi']);
+        $sub  = htmlspecialchars($row['sub']);
         $gambar     = !empty($row['gambar']) ? 'gambar/' . $row['gambar'] : 'default.jpg';
     ?>
         <div class="row mb-4 align-items-center">
@@ -110,7 +110,7 @@
           </div>
           <div class="col-md-8">
             <h4><?= $judul ?></h4>
-            <p><?= $deskripsi ?></p>
+            <p><?= $sub ?></p>
           </div>
         </div>
     <?php
