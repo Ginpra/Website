@@ -127,37 +127,35 @@ include 'koneksi.php'; // Menghubungkan ke database
 </section>
 
 <!-- Latest News -->
-<section id="latest-news" class="py-5 bg-light">
+<section id="latest-news" class="py-5" style="background-color: #f8f9fa; color: #000;">
   <div class="container">
     <h2 class="mb-4">📰 Latest News</h2>
     <div class="row">
-      <div class="col-md-4 mb-4">
-        <div class="card">
-          <img src="news1.jpg" class="card-img-top" alt="News 1">
-          <div class="card-body">
-            <h5 class="card-title">Laptop Gaming Terbaik 2025</h5>
-            <p class="card-text">Rekomendasi laptop gaming yang powerful dengan harga bersahabat.</p>
+      <?php
+      $query = "SELECT * FROM berita WHERE kategori = 'latest' ORDER BY tanggal DESC";
+      $result = $conn->query($query);
+
+      if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+          $judul  = htmlspecialchars($row['judul']);
+          $sub    = htmlspecialchars($row['sub']);
+          $gambar = !empty($row['gambar']) ? 'gambar/' . $row['gambar'] : 'default.jpg';
+      ?>
+          <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+              <img src="<?= $gambar ?>" class="card-img-top" alt="<?= $judul ?>">
+              <div class="card-body">
+                <h5 class="card-title"><?= $judul ?></h5>
+                <p class="card-text"><?= $sub ?></p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="col-md-4 mb-4">
-        <div class="card">
-          <img src="news2.jpg" class="card-img-top" alt="News 2">
-          <div class="card-body">
-            <h5 class="card-title">Apple Siapkan Inovasi iOS 19</h5>
-            <p class="card-text">Fitur baru yang bikin pengalaman pengguna makin smooth dan smart.</p>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4 mb-4">
-        <div class="card">
-          <img src="news3.jpg" class="card-img-top" alt="News 3">
-          <div class="card-body">
-            <h5 class="card-title">Startup Teknologi dari Indonesia Makin Maju</h5>
-            <p class="card-text">Perkembangan startup lokal yang patut diacungi jempol!</p>
-          </div>
-        </div>
-      </div>
+      <?php
+        }
+      } else {
+        echo "<p>Tidak ada berita terbaru saat ini.</p>";
+      }
+      ?>
     </div>
   </div>
 </section>
@@ -167,14 +165,25 @@ include 'koneksi.php'; // Menghubungkan ke database
   <div class="container">
     <h2 class="mb-4">💡 Tips & Insight</h2>
     <div class="row g-4">
-      <div class="col-md-6">
-        <h5>Cara Memilih Laptop untuk Mahasiswa</h5>
-        <p>Panduan lengkap memilih laptop sesuai kebutuhan kuliah dan budget.</p>
-      </div>
-      <div class="col-md-6">
-        <h5>5 Aplikasi Wajib untuk Produktivitas</h5>
-        <p>Rekomendasi aplikasi yang bisa bikin kerjaan kamu lebih cepat selesai.</p>
-      </div>
+      <?php
+      $query = "SELECT * FROM berita WHERE kategori = 'tips' ORDER BY tanggal DESC";
+      $result = $conn->query($query);
+
+      if ($result && $result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+          $judul = htmlspecialchars($row['judul']);
+          $sub   = htmlspecialchars($row['sub']);
+      ?>
+          <div class="col-md-6">
+            <h5><?= $judul ?></h5>
+            <p><?= $sub ?></p>
+          </div>
+      <?php
+       }
+      } else {
+        echo "<p>Tidak ada tips atau insight saat ini.</p>";
+      }
+      ?>
     </div>
   </div>
 </section>
