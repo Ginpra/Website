@@ -23,7 +23,7 @@
             <a class="nav-link active" href="#">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Hot</a>
+            <a class="nav-link" href="#hot-news">Hot</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Latest</a>
@@ -32,7 +32,10 @@
             <a class="nav-link" href="#">Tips</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
+            <a class="nav-link" href="#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-outline-warning" href="login.php">Admin</a>
           </li>
         </ul>
       </div>
@@ -159,7 +162,7 @@
 </section>
 
 <!-- Footer -->
-<footer style="background-color: black; color: yellow;">
+<footer id="about" style="background-color: black; color: yellow;">
   <div class="container py-4">
     <div class="row">
 
