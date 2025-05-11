@@ -26,10 +26,10 @@ if (isset($_GET['hapus'])) {
 // Update Berita
 if (isset($_POST['update'])) {
     $id        = (int)$_POST['id'];
-    $judul     = mysqli_real_escape_string($conn, $_POST['judul']);
-    $sub       = mysqli_real_escape_string($conn, $_POST['sub']);
-    $deskripsi = mysqli_real_escape_string($conn, $_POST['deskripsi']);
-    $kategori  = mysqli_real_escape_string($conn, $_POST['kategori']);
+    $judul     = $_POST['judul'];
+    $sub       = $_POST['sub'];
+    $deskripsi = $_POST['deskripsi'];
+    $kategori  = $_POST['kategori'];
 
     // Bangun query dasar
     $sql = "UPDATE berita SET
@@ -37,18 +37,6 @@ if (isset($_POST['update'])) {
                 sub       = '$sub',
                 deskripsi = '$deskripsi',
                 kategori  = '$kategori'";
-
-    // Handle upload gambar jika ada
-    if (!empty($_FILES['gambar']['name'])) {
-        $fileName = time() . '_' . basename($_FILES['gambar']['name']);
-        $target   = 'uploads/' . $fileName;
-        if (move_uploaded_file($_FILES['gambar']['tmp_name'], $target)) {
-            $sql .= ", gambar = '$fileName'";
-        } else {
-            echo "<script>alert('Upload gambar gagal!');</script>";
-            exit;
-        }
-    }
 
     $sql .= " WHERE id = $id";
     mysqli_query($conn, $sql) or die(mysqli_error($conn));
@@ -101,10 +89,6 @@ $berita = $conn->query("SELECT * FROM berita");
               <option value="latest">Latest News</option>
               <option value="tips">Tips</option>
             </select>
-            </div>
-            <div class="mb-2">
-              <input type="file" name="gambar" class="form-control">
-              <small class="text-muted">Kosongkan jika tidak ingin mengubah gambar</small>
             </div>
             <button type="submit" name="update" class="btn btn-success btn-sm">Simpan</button>
             <a href="dashboard.php" class="btn btn-secondary btn-sm">Batal</a>
