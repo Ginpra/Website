@@ -6,7 +6,6 @@ if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    //1. ambil data dari tabel
     $result = mysqli_query($conn, "SELECT * FROM admin WHERE username = '$username'");
 
     if (mysqli_num_rows($result)) { // mysqli_num_rows() => melihat berapa data yang diambil dari $result
@@ -21,7 +20,7 @@ if (isset($_POST['login'])) {
     }
 
     echo "<script>
-    alert('Username atau password salah bossku')
+    alert('Username atau password salah min!');
     </script>";
 }
     
@@ -31,9 +30,20 @@ if (isset($_POST['login'])) {
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Login Admin - LuxTech</title>
+  <title>Login Admin</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
+
+  <nav class="navbar navbar-expand-lg navbar-custom fixed">
+    <div class="container">
+           <a class="navbar-brand" href="Home.php">
+        <img src="gambar/lux.png" alt="Logo" style="width: 30px; height: auto;"> LuxTech
+      </a>
+      <a href="Home.php" class="btn btn-outline-warning btn-sm">Home</a>
+    </div>
+  </nav>
+
 <body style="background-color: #111; color: yellow;">
   <div class="container py-5">
     <h2 class="text-center mb-4">Login Admin LuxTech</h2>

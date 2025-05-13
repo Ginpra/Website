@@ -1,5 +1,5 @@
-body {
-  padding-top: 70px;
+#tips {
+  margin-bottom: 60px;
 }
 .navbar-custom {
     background-color: black;
@@ -15,7 +15,6 @@ body {
   h1, h5 {
     color: white;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-
   }
   .btn-primary {
     background-color: black;
@@ -32,7 +31,6 @@ body {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
-
 .creator-image img {
   width: 220px;
   height: 220px;
@@ -40,3 +38,7 @@ body {
   border-radius: 50%;
   border: 4px solid #111;
 }
+.text-justify {
+      text-align: justify;
+      text-justify: inter-word;
+    }

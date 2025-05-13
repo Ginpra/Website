@@ -52,12 +52,15 @@ $berita = $conn->query("SELECT * FROM berita");
   <meta charset="UTF-8">
   <title>Dashboard Admin - LuxTech</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body style="background-color: #111; color: yellow; padding-top: 70px;">
 
-  <nav class="navbar navbar-dark bg-black fixed-top">
+  <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
     <div class="container">
-      <span class="navbar-brand text-warning">LuxTech Admin</span>
+           <a class="navbar-brand" href="Home.php">
+        <img src="gambar/lux.png" alt="Logo" style="width: 30px; height: auto;"> LuxTech Admin
+      </a>
       <a href="?action=logout" class="btn btn-outline-warning btn-sm">Logout</a>
     </div>
   </nav>
@@ -66,21 +69,22 @@ $berita = $conn->query("SELECT * FROM berita");
     <h2 class="mb-4">Selamat datang, <?= $username ?></h2>
     <p>Di sini kamu bisa menambahkan, mengedit, atau menghapus data berita.</p>
     <a href="tambah.php" class="btn btn-warning mb-4">+ Tambah Berita</a>
-
     <h3 class="text-warning">Daftar Berita</h3>
+
     <?php while ($row = $berita->fetch_assoc()): ?>
       <div class="bg-dark text-light p-3 rounded mb-4">
         <?php if (isset($_GET['edit']) && $_GET['edit'] == $row['id']): ?>
+
           <form method="post">
             <input type="hidden" name="id" value="<?= $row['id'] ?>">
             <div class="mb-4">
-              <input type="text" name="judul" class="form-control" value="<?= htmlspecialchars($row['judul']) ?>" required>
+              <input type="text" name="judul" class="form-control" value="<?=($row['judul']) ?>" required>
             </div>
             <div class="mb-4">
-              <textarea name="deskripsi" class="form-control" required><?= htmlspecialchars($row['deskripsi']) ?></textarea>
+              <textarea name="deskripsi" class="form-control" required><?=($row['deskripsi']) ?></textarea>
             </div>
             <div class="mb-4">
-              <input type="text" name="sub" class="form-control" value="<?= htmlspecialchars($row['sub']) ?>" required>
+              <input type="text" name="sub" class="form-control" value="<?=($row['sub']) ?>" required>
             </div>
             <div class="mb-4">
               <select name="kategori" class="form-select" required>
@@ -88,13 +92,15 @@ $berita = $conn->query("SELECT * FROM berita");
               <option value="latest">Latest News</option>
               <option value="tips">Tips</option>
             </select>
+            
             </div>
             <button type="submit" name="edit" class="btn btn-success btn-sm">Simpan</button>
             <a href="dashboard.php" class="btn btn-danger btn-sm">Batal</a>
           </form>
+
         <?php else: ?>
-          <h5><?= htmlspecialchars($row['judul']) ?></h5>
-          <p><?= htmlspecialchars($row['sub']) ?></p>
+          <h5><?=($row['judul']) ?></h5>
+          <p><?=($row['sub']) ?></p>
           <a href="?edit=<?= $row['id'] ?>" class="btn btn-outline-warning btn-sm">Edit</a>
           <a href="?hapus=<?= $row['id'] ?>" class="btn btn-outline-danger btn-sm" onclick="return confirm('Yakin ingin menghapus berita ini?')">Hapus</a>
         <?php endif; ?>

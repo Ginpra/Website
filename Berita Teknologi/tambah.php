@@ -51,9 +51,19 @@ if (isset($_POST['tambah'])) {
   <title>Tambah Berita - LuxTech</title>
   <link 
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
+  <link rel="stylesheet" href="styles.css">
+  </head>
 
 <body style="background-color: #111; color: yellow;">
+
+  <nav class="navbar navbar-expand-lg navbar-custom fixed">
+    <div class="container">
+           <a class="navbar-brand" href="Home.php">
+        <img src="gambar/lux.png" alt="Logo" style="width: 30px; height: auto;"> LuxTech Admin
+      </a>
+      <a href="dashboard.php" class="btn btn-outline-warning btn-sm">Kembali</a>
+    </div>
+  </nav>
 
   <div class="container py-5" style="padding-top: 100px;">
     <h2 class="text-center mb-4">Form Tambah Berita</h2>

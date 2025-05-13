@@ -18,22 +18,22 @@ include 'koneksi.php'; // Menghubungkan ke database
 <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="Home.php">
         <img src="gambar/lux.png" alt="Logo" style="width: 30px; height: auto;"> LuxTech
       </a>
       <div class="navbar-collapse">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item">
-            <a class="nav-link active" href="#">Home</a>
+            <a class="nav-link active" href="#opening">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#hot-news">Hot</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Latest</a>
+            <a class="nav-link" href="#latest-news">Latest</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Tips</a>
+            <a class="nav-link" href="#tips-insight">Tips</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#about">About</a>
@@ -50,7 +50,7 @@ include 'koneksi.php'; // Menghubungkan ke database
   </nav>
 
   <!-- Opening -->
-<section class="hero-section" style="
+<section id="opening" class="hero-section" style="
   background-image: url('gambar/nasa.jpg');
   background-size: cover;
   background-position: center;
@@ -63,13 +63,13 @@ include 'koneksi.php'; // Menghubungkan ke database
   <div>
     <h1>Welcome to LuxTech</h1>
     <h5>Your daily dose of the latest in technology, gadgets, and innovations!</h5> <br>
-    <a href="#tech" class="btn btn-primary">Explore More</a>
+    <a href="#our-techs" class="btn btn-primary">Explore More</a>
   </div>
 </section>
 
 <!-- Our Touch -->
-<section id="our-touch" class="py-5" style="background-color: black;">
-  <div class="container text-center text-white">
+<section id="our-techs" class="py-5" style="background-color: black;">
+  <div class="container text-center text-white"><br><br>
     <h2 class="mb-4">👥 Our Techs</h2>
     <div class="row justify-content-center g-4">
       
@@ -79,7 +79,7 @@ include 'koneksi.php'; // Menghubungkan ke database
           </div>
           <div class="creator-info mt-3"><br>
             <h5>Gilang Andika Prasetyo</h5>
-            <p>Expert UI/UX yang membuat tampilan jadi kece.</p>
+            <p>Manusia di balik fitur-fitur ciamik LuxTech.</p>
           </div>
         </div>
 
@@ -89,7 +89,7 @@ include 'koneksi.php'; // Menghubungkan ke database
           </div>
           <div class="creator-info mt-3"><br>
             <h5>Daniel Roby Maldini</h5> 
-            <p>Orang di balik fitur-fitur ciamik LuxTech.</p>
+            <p>Orang yang mengurus semua database LuxTech</p>
         </div>
       </div>
     </div>
@@ -98,25 +98,27 @@ include 'koneksi.php'; // Menghubungkan ke database
 
 <!-- Hot News -->
 <section id="hot-news" class="py-5" style="background-color: #111; color: yellow;">
-  <div class="container">
+  <div class="container"><br><br>
     <h2 class="mb-4">🔥 Hot News</h2>
     <?php
-   
+
     $query = "SELECT * FROM berita WHERE kategori = 'hot' ORDER BY tanggal DESC LIMIT 6";
     $result = $conn->query($query);
 
     if ($result && $result->num_rows > 0) {
       while ($row = $result->fetch_assoc()) {
-        $judul      = htmlspecialchars($row['judul']);
-        $sub  = htmlspecialchars($row['sub']);
-        $gambar     = !empty($row['gambar']) ? 'gambar/' . $row['gambar'] : 'default.jpg';
+        $judul = ($row['judul']);
+        $sub = ($row['sub']);
+        $gambar = !empty($row['gambar']) ? 'gambar/' . $row['gambar'] : 'default.jpg';
     ?>
         <div class="row mb-4 align-items-center">
           <div class="col-md-4">
             <img src="<?= $gambar ?>" alt="<?= $judul ?>" class="img-fluid rounded">
           </div>
           <div class="col-md-8">
-            <h4><?= $judul ?></h4>
+            <a href="isi.php?id=<?= $row['id'] ?>" class="text-decoration-none text-warning">
+              <h4><?= $judul ?></h4>
+            </a>
             <p><?= $sub ?></p>
           </div>
         </div>
@@ -131,7 +133,7 @@ include 'koneksi.php'; // Menghubungkan ke database
 
 <!-- Latest News -->
 <section id="latest-news" class="py-5" style="background-color: #f8f9fa; color: #000;">
-  <div class="container">
+  <div class="container"><br><br>
     <h2 class="mb-4">📰 Latest News</h2>
     <div class="row">
       <?php
@@ -140,15 +142,15 @@ include 'koneksi.php'; // Menghubungkan ke database
 
       if ($result && $result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-          $judul  = htmlspecialchars($row['judul']);
-          $sub    = htmlspecialchars($row['sub']);
+          $judul  = ($row['judul']);
+          $sub    = ($row['sub']);
           $gambar = !empty($row['gambar']) ? 'gambar/' . $row['gambar'] : 'default.jpg';
       ?>
           <div class="col-md-4 mb-4">
             <div class="card h-100 shadow-sm">
               <img src="<?= $gambar ?>" class="card-img-top" alt="<?= $judul ?>">
               <div class="card-body">
-                <h5 class="card-title"><?= $judul ?></h5>
+                <a href="isi.php?id=<?= $row['id'] ?>" class="text-decoration-none text-black"><h5 class="card-title"><?= $judul ?></h5></a>
                 <p class="card-text"><?= $sub ?></p>
               </div>
             </div>
@@ -165,7 +167,7 @@ include 'koneksi.php'; // Menghubungkan ke database
 
 <!-- Tips & Insight -->
 <section id="tips-insight" class="py-5" style="background-color: #111; color: yellow;">
-  <div class="container">
+  <div class="container"><br><br>
     <h2 class="mb-4">💡 Tips & Insight</h2>
     <div class="row g-4">
       <?php
@@ -174,11 +176,11 @@ include 'koneksi.php'; // Menghubungkan ke database
 
       if ($result && $result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
-          $judul = htmlspecialchars($row['judul']);
-          $sub   = htmlspecialchars($row['sub']);
+          $judul = ($row['judul']);
+          $sub   = ($row['sub']);
       ?>
           <div class="col-md-6">
-            <h5><?= $judul ?></h5>
+            <a href="isi.php?id=<?= $row['id'] ?>" class="text-decoration-none"><h5><?= $judul ?></h5></a>
             <p><?= $sub ?></p>
           </div>
       <?php
@@ -193,7 +195,7 @@ include 'koneksi.php'; // Menghubungkan ke database
 
 <!-- Footer -->
 <footer id="about" style="background-color: black; color: yellow;">
-  <div class="container py-4">
+  <div class="container py-4"><br>
     <div class="row">
 
       <div class="col-md-4 mb-3">

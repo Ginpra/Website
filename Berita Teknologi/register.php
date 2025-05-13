@@ -2,26 +2,20 @@
 include 'koneksi.php';
 
 if (isset($_POST['register'])) {
-    $username = strtolower($_POST['username']);
+    $username = $_POST['username'];
     $password = $_POST['password'];
     $password2 = $_POST['password2'];
 
-    // Cek apakah konfirasi password sesuai
     if ($password !== $password2) {
         echo "<script>
         alert('Input password tidak sesuai')
         </script>";
     } else {
-        //misalnya password bener -> masukkin ke db
-
-        //enkripsi
         $password = password_hash($password, PASSWORD_DEFAULT);
-
-        //masukkkin ke db
         $query = "INSERT INTO admin (username, password) VALUES ('$username', '$password')"; 
-        $q = mysqli_query($conn, $query);
+        $admin = mysqli_query($conn, $query);
 
-        if ($q) {
+        if ($admin) {
             echo "<script>
             alert('admin berhasil ditambahkan')
             </script>";
@@ -38,11 +32,22 @@ if (isset($_POST['register'])) {
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Register Admin - LuxTech</title>
+  <title>Register Admin</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body style="background-color: #111; color: yellow;">
+
+  <nav class="navbar navbar-expand-lg navbar-custom fixed">
+    <div class="container">
+           <a class="navbar-brand" href="Home.php">
+        <img src="gambar/lux.png" alt="Logo" style="width: 30px; height: auto;"> LuxTech
+      </a>
+      <a href="Home.php" class="btn btn-outline-warning btn-sm">Home</a>
+    </div>
+  </nav>
+
   <div class="container py-5">
     <h2 class="text-center mb-4">Register Admin LuxTech</h2>
     <div class="row justify-content-center">
