@@ -10,7 +10,7 @@
   }
   .navbar-custom .navbar-brand:hover,
   .navbar-custom .navbar-nav .nav-link:hover {
-   color: #f0b7a4; /* Warna hover */
+   color: #f0b7a4;
   }
   h1, h5 {
     color: white;
@@ -23,14 +23,6 @@
     padding: 10px 20px;
     font-size: 1rem;
   }
-.creator-box {
-  display: inline-block;
-  background-color: #fff; /* bisa diganti kalau mau */
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
 .creator-image img {
   width: 220px;
   height: 220px;
