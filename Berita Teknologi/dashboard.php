@@ -2,12 +2,6 @@
 include 'koneksi.php';
 session_start();
 
-if (isset($_GET['action']) && $_GET['action'] === 'logout') {
-    session_destroy();
-    header('Location: login.php');
-    exit();
-}
-
 if (!isset($_SESSION['login'])) {
     header("Location: login.php");
     exit;
@@ -50,6 +44,7 @@ $berita = $conn->query("SELECT * FROM berita");
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard Admin - LuxTech</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
@@ -61,7 +56,7 @@ $berita = $conn->query("SELECT * FROM berita");
            <a class="navbar-brand" href="Home.php">
         <img src="gambar/lux.png" alt="Logo" style="width: 30px; height: auto;"> LuxTech Admin
       </a>
-      <a href="?action=logout" class="btn btn-outline-warning btn-sm">Logout</a>
+      <a href="logout.php" class="btn btn-outline-warning btn-sm">Logout</a>
     </div>
   </nav>
 

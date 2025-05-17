@@ -17,37 +17,42 @@ include 'koneksi.php'; // Menghubungkan ke database
     
 <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-custom fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="Home.php">
-        <img src="gambar/lux.png" alt="Logo" style="width: 30px; height: auto;"> LuxTech
-      </a>
-      <div class="navbar-collapse">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link active" href="#opening">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#hot-news">Hot</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#latest-news">Latest</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#tips-insight">Tips</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#about">About</a>
-          </li>
-          <li class="nav-item ms-3">
-            <a class="btn btn-outline-warning" href="login.php">Sign In</a>
-          </li>
-          <li class="nav-item ms-3">
-            <a class="btn btn-warning" href="register.php">Sign Up</a>
-          </li>
-        </ul>
-      </div>
+  <div class="container">
+    <a class="navbar-brand" href="Home.php">
+      <img src="gambar/lux.png" alt="Logo" style="width: 30px; height: auto;"> LuxTech
+    </a>
+    <div class="navbar-collapse">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" href="#opening">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#hot-news">Hot</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#latest-news">Latest</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#tips-insight">Tips</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#about">About</a>
+        </li>
+        <li class="nav-item dropdown ms-3">
+          <a class="btn btn-warning dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+            Admin
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item btn btn-warning" href="dashboard.php">Dashboard</a></li>
+            <li><a class="dropdown-item btn btn-warning" href="login.php">Sign In</a></li>
+            <li><a class="dropdown-item btn btn-warning" href="register.php">Sign Up</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
-  </nav>
+  </div>
+</nav>
+
 
   <!-- Opening -->
 <section id="opening" class="hero-section" style="
